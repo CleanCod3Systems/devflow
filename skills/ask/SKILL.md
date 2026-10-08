@@ -20,7 +20,7 @@ that is exactly what the user wanted to prevent.
 
 - Reading files and searching code (read tools, `grep`, `find`, `ls`, `cat`…).
 - Read-only git: `status`, `log`, `diff`, `show`, `blame`.
-- `SELECT` / `SHOW` / `DESCRIBE` / `EXPLAIN` against connected databases.
+- Read-only database queries (no inserts, updates, deletes, or schema changes).
 - Read-only integrations (tools that `get`, `list`, `search`, `read`, `fetch`…).
 - Web and documentation search.
 
@@ -44,9 +44,9 @@ fixed template, no summary heading.
 
 ### Examples
 
-Simple question — *"which Spring Boot version does the backend use?"*:
+Simple question — *"which framework version does the backend use?"*:
 
-> Spring Boot **3.4.1**, set in the parent `pom.xml` (`pom.xml:12`).
+> Version **3.4.1**, pinned in the root build file (`build-config:12`).
 
 Larger question — *"which tables will we touch and which columns get added?"*:
 
@@ -54,11 +54,11 @@ Larger question — *"which tables will we touch and which columns get added?"*:
 >
 > | Table | New column | Type | Source |
 > |---|---|---|---|
-> | `payment_transaction` | `gateway_reason` | VARCHAR(255) | `V12__pay.sql:3` |
-> | `payment_transaction` | `attempt_number` | INT | `V12__pay.sql:4` |
-> | `booking` | `payment_status` | VARCHAR(32) | `Booking.java:58` |
+> | `payment_transaction` | `gateway_reason` | text | `migration-012:3` |
+> | `payment_transaction` | `attempt_number` | integer | `migration-012:4` |
+> | `booking` | `payment_status` | text | `booking-model:58` |
 >
 > **⚠️ Unverified:** the size of `payment_transaction` in production. If it is large, the
-> `ALTER` may lock the table.
+> schema change may lock the table.
 >
 > **If you want to change it:** make `payment_status` nullable so old rows need no backfill.

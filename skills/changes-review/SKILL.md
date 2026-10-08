@@ -1,6 +1,6 @@
 ---
 name: changes-review
-description: Self-contained review of local changes that have not been pushed yet — uncommitted, or committed but not pushed. Builds an inventory, reviews every change through seven lenses (is it needed?, logic bugs, over-engineering, project conventions, blast radius, failure gaps, database/deploy risk — plus an Odoo checklist when relevant), runs the tests, applies safe fixes directly, proposes the ones that change behavior, and reports in TL;DR form. Use when the user asks to review what we did, go over the changes, check whether something broke, whether all gaps are closed, whether it is over-engineered, or wants a pre-commit / pre-push review of the session's work.
+description: Self-contained review of local changes that have not been pushed yet — uncommitted, or committed but not pushed. Builds an inventory, reviews every change through seven lenses (is it needed?, logic bugs, over-engineering, project conventions, blast radius, failure gaps, database/deploy risk), runs the tests, applies safe fixes directly, proposes the ones that change behavior, and reports verdict-first. Use when the user asks to review what we did, go over the changes, check whether something broke, whether all gaps are closed, whether it is over-engineered, or wants a pre-commit / pre-push review of the session's work.
 ---
 
 # Changes review
@@ -40,8 +40,8 @@ keep the emoji.
    No upstream (branch never pushed): use the base branch
    (`git merge-base HEAD origin/main`, or `origin/master`) instead of `@{upstream}`.
    Untracked files: read the whole file, it is all new.
-3. **Exclude** lockfiles, generated artifacts, and vendored code (`vendor/`, `static/lib/`,
-   `node_modules/`, `target/`, `dist/`, or any vendored upstream source tree).
+3. **Exclude** lockfiles, generated artifacts, and vendored code (dependency folders, build
+   output, or any third-party source copied into the repo).
 4. If nothing is unpushed: answer "No unpushed changes in <repos>." and stop.
 
 ## Step 2 — Inventory and context
@@ -66,17 +66,17 @@ command output); a suspicion without evidence is not a finding.
 ### 3.2 Logic bugs
 Read the whole method, not just the hunk, and look for:
 - Inverted conditions, off-by-one, comparisons with the wrong type or operator
-  (`==` vs `equals`, string vs number), badly grouped boolean logic.
+  (identity vs value equality, text vs number), badly grouped boolean logic.
 - Null or empty values arriving unchecked: parameters, external responses, empty search
-  results, empty collections, unchecked optionals.
-- Swallowed errors (empty `catch`, `except: pass`), wrong exception types, error messages
+  results, empty collections, optional values used without a check.
+- Swallowed errors (empty error handlers, errors caught and ignored), wrong error types, error messages
   that leak sensitive data.
 - Unclosed resources (connections, streams, files), transactions without rollback.
-- Async / reactive code: promises, futures, or streams that are never awaited or
-  subscribed, blocking calls inside a reactive flow, errors that do not propagate.
+- Asynchronous code: tasks or streams that are never awaited or started, blocking calls
+  inside non-blocking flows, errors that do not propagate.
 - Shared state without protection: concurrency, race conditions, double execution.
 - Money, dates, and time zones: rounding, currency, `float` for amounts, UTC vs local.
-- Security: unvalidated input at a trust boundary, SQL built by string concatenation,
+- Security: unvalidated input at a trust boundary, queries built by concatenating input,
   secrets in code, missing permission checks.
 
 ### 3.3 Over-engineering
@@ -92,9 +92,9 @@ name its replacement:
 | `shrink` | same logic in fewer lines | show the shorter form |
 
 Examples:
-- `Util.java:12-38` · `stdlib` · 27-line validator → `String.isBlank()` + the regex already in `Validators`.
-- `repo.py:88` · `yagni` · `AbstractRepository` with one implementation → inline until a second one exists.
-- `payment.ts:52-71` · `delete` · retry wrapper around an idempotent local call → nothing.
+- `utils:12-38` · `stdlib` · 27-line hand-written validator → the standard library's blank-string check + the pattern already in `validators`.
+- `repository:88` · `yagni` · abstract repository with a single implementation → inline it until a second one exists.
+- `payment:52-71` · `delete` · retry wrapper around an idempotent local call → nothing.
 
 A minimal test or a self-check `assert` is **not** over-engineering: never flag it.
 
@@ -118,13 +118,9 @@ idempotency (what if it runs twice?), concurrency, existing data already in the 
 permissions and tenant/company isolation, backward compatibility with clients or older versions.
 
 ### 3.7 Database and deploy
-Migrations, `ALTER`s, new columns with an index, `NOT NULL`, or a default, type changes: can
+Schema migrations, new columns with an index, required columns or defaults, type changes: can
 it lock a large table on deploy? Does existing data satisfy the new constraint? If the table
-size is unknown, it goes under "Unverified".
-
-### Odoo repos
-If the repo has `__manifest__.py` files or an addons folder, also read
-[references/odoo.md](references/odoo.md) and apply its checklist to the Odoo files touched.
+size is unknown, it goes under "Not verified" in 🧪 Verification.
 
 ## Step 4 — Verify
 
@@ -134,7 +130,7 @@ If the repo has `__manifest__.py` files or an addons folder, also read
   "it works" without running it.
 
 **Independent review** — only if the scope exceeds ~5 files or touches something sensitive
-(payments, SQL/migrations, authentication/permissions, contracts between services), and your
+(payments, database migrations, authentication/permissions, contracts between services), and your
 environment supports subagents: launch a fresh subagent that receives **only** the diff and
 the user's original request — none of this session's reasoning — with the task of finding
 concrete failures. Check each of its findings against the code before including it.
@@ -174,39 +170,41 @@ concrete failures. Check each of its findings against the code before including 
 
 ## Report format
 
+Four parts, in this order. **Omit any part with nothing to say** — except the verdict and
+the verification, which are always there. Every part keeps its emoji; translate the labels
+into the user's language.
+
+| Part | When | Content |
+|---|---|---|
+| 📌 **Verdict** | Always | ✅ ready to push / ⚠️ with notes / ❌ needs fixes — one line with the reason and the scope ("6 files in 2 repos") |
+| 🔧 **Fixed** | If something was applied | `file:line`, what was failing, and what changed |
+| 🤔 **Needs your OK** | If there are proposals | Each one: the problem, when it fails, the proposal, and the recommended option |
+| 🧪 **Verification** | Always | Tests run and their result, where the backup is, and what could not be checked |
+
 ```markdown
-## 📌 TL;DR
-<Verdict: ✅ ready to push / ⚠️ with notes / ❌ needs fixes — and the reason in 1 line.>
+📌 **Verdict:** ⚠️ With notes — 6 files in 2 repos; fixed 2 issues, 1 needs your OK.
 
-### 🗂️ What we touched
-| Repo | File | Change | State |
-|---|---|---|---|
-| <repo> | `<path>` | <what and why> | uncommitted / committed, not pushed |
+🔧 **Fixed**
+- `payment-service:88` — a gateway timeout was silently ignored. It is now logged and propagated.
+- `utils:12-38` — hand-written validator replaced with the standard library's (−25 lines).
 
-### 🔬 Review
-| Change | Needed | Bugs | Over-eng. | Conventions | Impact | Gaps | DB |
-|---|---|---|---|---|---|---|---|
-| `<file>` | ✅ | ✅ | ⚠️ | ✅ | ✅ | ❌ | — |
+🤔 **Needs your OK**
+- `booking-api:40` — `status` was renamed to `payment_status`, but `admin-panel:112` still
+  reads `status`. It breaks as soon as it is deployed. **Proposal:** keep both names for one
+  release *(recommended)*, or update the admin panel in this same batch.
 
-### 🕳️ Findings
-- 🔧 `<file:line>` — <problem>. **Fails when:** <scenario>. **Applied:** <what changed>.
-- 🤔 `<file:line>` — <problem>. **Fails when:** <scenario>. **Proposal:** <action>.
-  ("No findings." if there are none.)
-
-### 🧪 Verification
-- Ran (after fixes): <command> → <result>.
-- Backup: `git stash list` → "changes-review backup" in <repos> (or "not needed").
-- Unverified: <what could not be run or checked, and why>.
-
-### 🤔 Your call
-- <Apply fix X? / A or B?> ("Nothing for now." if none.)
-
-### 💡 Recommendation
-<What I would do and why, 1–3 lines.>
+🧪 **Verification**
+- Payment module test suite → 48/48 OK, after the fixes.
+- Backup: `git stash list` → "changes-review backup".
+- Not verified: the admin panel has no tests.
 ```
 
-In the Review table, every ⚠️ or ❌ cell must have its finding under "🕳️ Findings".
-`—` = not applicable.
+When everything is fine, the whole report is two lines:
+
+```markdown
+📌 **Verdict:** ✅ Ready to push — 3 files reviewed, no findings.
+🧪 **Verification:** payment module test suite → 48/48 OK.
+```
 
 ## After the report
 

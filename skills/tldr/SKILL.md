@@ -73,7 +73,7 @@ When in doubt, a concrete question wins: question mode.
 
 - **What we did**: only what actually happened in the session, ~6 bullets max, grouping
   minor items.
-- **Next steps**: concrete actions ("run `npm test` in `packages/api`"), not vague
+- **Next steps**: concrete actions ("run the test suite of the `api` module"), not vague
   intentions ("check stuff").
 
 ### Example
@@ -83,9 +83,9 @@ When in doubt, a concrete question wins: question mode.
 The double-charge fix is in and tests pass; it needs your OK to commit.
 
 ### ✅ What we did
-- Root cause: `PaymentService.java:142` did not check whether the transaction already existed.
-- Idempotency guard in `PaymentService.charge()` — covers all 3 callers.
-- `mvn test -pl payment-service` → 48/48 OK.
+- Root cause: `payment-service:142` did not check whether the transaction already existed.
+- Idempotency guard in the shared `charge` function — covers all 3 callers.
+- Payment module test suite → 48/48 OK.
 
 ### 📍 Where we are
 Fix done and tested locally. Not tried against the staging environment.
@@ -147,17 +147,17 @@ Question: *"which tables will we touch and which columns get added?"*
 ### 📋 Details
 | Table | New column | Type | Purpose | Source |
 |---|---|---|---|---|
-| `payment_transaction` | `gateway_reason` | VARCHAR(255) | real decline reason | `V12__pay.sql:3` |
-| `payment_transaction` | `attempt_number` | INT | number the retries | `V12__pay.sql:4` |
-| `booking` | `payment_status` | VARCHAR(32) | payment state in the admin panel | `Booking.java:58` |
+| `payment_transaction` | `gateway_reason` | text | real decline reason | `migration-012:3` |
+| `payment_transaction` | `attempt_number` | integer | number the retries | `migration-012:4` |
+| `booking` | `payment_status` | text | payment state in the admin panel | `booking-model:58` |
 
 ### ⚠️ Unverified
-- Size of `payment_transaction` in production: if it is large, the `ALTER` may lock the
-  table. Check with `SELECT COUNT(*)`.
+- Size of `payment_transaction` in production: if it is large, the schema change may lock the
+  table. Check its row count first.
 
 ### 🤔 Your call
 - `payment_status` with a default value, or nullable?
 
 ### 💡 Recommendation
-Nullable: the `ALTER` is faster and old rows do not need a backfill.
+Nullable: the schema change is faster and old rows do not need a backfill.
 ```

@@ -38,7 +38,7 @@ Copy the folders under `skills/` into your agent's skills directory, for example
 - `disallowed-tools` removes edit/write tools while `/ask` runs.
 - A `PreToolUse` hook (`skills/ask/scripts/guard.py`) blocks any non-read-only tool call
   while your latest message is an `/ask`. It uses an allowlist: read tools, read-only shell
-  commands (`ls`, `cat`, `grep`, `find`, read-only `git`…), `SELECT`-only SQL, and
+  commands (`ls`, `cat`, `grep`, `find`, read-only `git`…), read-only database queries, and
   integration tools whose names read like `get` / `list` / `search` / `read`. Everything else
   is blocked, including redirections to files, command substitution, and interpreters.
 
