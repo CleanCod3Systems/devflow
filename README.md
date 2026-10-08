@@ -56,6 +56,18 @@ gemini extensions install https://github.com/CleanCod3Systems/devflow
 
 The skills under `skills/` are discovered automatically.
 
+### OpenCode
+
+```bash
+npx skills add CleanCod3Systems/devflow -a opencode        # this project
+npx skills add CleanCod3Systems/devflow -a opencode -g     # every project
+```
+
+Or copy the folders under `skills/` into `.opencode/skills/` (one project) or
+`~/.config/opencode/skills/` (every project). OpenCode also loads skills from
+`~/.claude/skills/` and `~/.agents/skills/`, so skills installed there for other agents
+show up too. Check with `opencode debug skill`.
+
 ### Any other agent with Agent Skills support
 
 Copy the folders under `skills/` into your agent's skills directory (for Claude Code without
@@ -73,7 +85,7 @@ because the guard reads Claude Code's session format:
   integration tools whose names read like `get` / `list` / `search` / `read`. Everything else
   is blocked, including redirections to files, command substitution, and interpreters.
 
-In every other install (skills CLI, Codex, Copilot, Gemini, manual copy), the hook does not run: `ask` then relies on
+In every other install (skills CLI, Codex, Copilot, Gemini, OpenCode, manual copy), the hook does not run: `ask` then relies on
 the agent following its instructions.
 
 The guard needs `python3` on your `PATH`.
