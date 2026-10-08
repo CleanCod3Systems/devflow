@@ -1,0 +1,24 @@
+{
+  "name": "devflow",
+  "description": "devflow: portable Agent Skills for everyday checkpoints with coding agents.",
+  "owner": {
+    "name": "CleanCod3Systems",
+    "url": "https://github.com/CleanCod3Systems"
+  },
+  "plugins": [
+    {
+      "name": "devflow",
+      "description": "tldr, ask (read-only) and changes-review.",
+      "source": "./",
+      "category": "productivity",
+      "tags": [
+        "skills",
+        "review",
+        "read-only",
+        "summary",
+        "workflow"
+      ],
+      "skills": "skills/"
+    }
+  ]
+}

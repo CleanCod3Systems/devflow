@@ -4,7 +4,7 @@ Everyday checkpoints for coding agents, packaged as portable [Agent Skills](http
 
 | Skill | What it does |
 |---|---|
-| `tldr` | Summarizes the session (what we did, where we are, next steps, your call, recommendation) or answers a question in TL;DR form. |
+| `tldr` | Summarizes the session (what we did, where we are, next steps, your call, recommendation) or answers a question in short, sectioned form. |
 | `ask` | Read-only questions: the agent investigates and answers, but never creates, edits, deletes, or sends anything. Hook-enforced in Claude Code. |
 | `changes-review` | Reviews your **unpushed** changes through seven lenses (needed?, bugs, over-engineering, conventions, blast radius, gaps, DB/deploy risk), runs the tests, applies safe fixes, and proposes the risky ones. |
 
@@ -13,36 +13,67 @@ you write in (or the one your agent instructions set).
 
 ## Install
 
-### Claude Code (plugin, recommended)
+Skills are installed by the **agent** you use, and work with whatever model that agent runs.
+
+### Any agent (skills CLI)
+
+```bash
+npx skills add CleanCod3Systems/devflow
+```
+
+Installs the skills into the agents it detects on your machine. Add `--skill <name>` to pick
+one, or `--list` to see them first.
+
+### Claude Code
 
 ```text
 /plugin marketplace add CleanCod3Systems/devflow
 /plugin install devflow@devflow
 ```
 
-Then use `/devflow:tldr`, `/devflow:ask <question>`, `/devflow:changes-review`.
+Use `/devflow:tldr`, `/devflow:ask <question>`, `/devflow:changes-review`. This is the only
+install that enforces `ask` with a hook (see below).
 
-### Any agent that supports Agent Skills
+### Codex
 
-Copy the folders under `skills/` into your agent's skills directory, for example:
+```bash
+codex plugin marketplace add CleanCod3Systems/devflow
+codex plugin add devflow@devflow
+```
 
-| Agent | Skills directory |
-|---|---|
-| Claude Code (without the plugin) | `~/.claude/skills/` or `.claude/skills/` |
-| Other agents | see your agent's documentation for its skills path |
+### GitHub Copilot CLI
+
+```bash
+copilot plugin marketplace add CleanCod3Systems/devflow
+copilot plugin install devflow@devflow
+```
+
+### Gemini CLI
+
+```bash
+gemini extensions install https://github.com/CleanCod3Systems/devflow
+```
+
+The skills under `skills/` are discovered automatically.
+
+### Any other agent with Agent Skills support
+
+Copy the folders under `skills/` into your agent's skills directory (for Claude Code without
+the plugin: `~/.claude/skills/` or `.claude/skills/`; for others, see your agent's docs).
 
 ## About `ask` enforcement
 
-`ask` works everywhere as a strict instruction. **Only the Claude Code plugin enforces it**:
+`ask` works everywhere as a strict instruction. **Only the Claude Code plugin enforces it**,
+because the guard reads Claude Code's session format:
 
 - `disallowed-tools` removes edit/write tools while `/ask` runs.
-- A `PreToolUse` hook (`skills/ask/scripts/guard.py`) blocks any non-read-only tool call
+- A `PreToolUse` hook (`hooks/claude-hooks.json` → `skills/ask/scripts/guard.py`) blocks any non-read-only tool call
   while your latest message is an `/ask`. It uses an allowlist: read tools, read-only shell
   commands (`ls`, `cat`, `grep`, `find`, read-only `git`…), read-only database queries, and
   integration tools whose names read like `get` / `list` / `search` / `read`. Everything else
   is blocked, including redirections to files, command substitution, and interpreters.
 
-Installed as plain skills (without the plugin), the hook does not run: `ask` then relies on
+In every other install (skills CLI, Codex, Copilot, Gemini, manual copy), the hook does not run: `ask` then relies on
 the agent following its instructions.
 
 The guard needs `python3` on your `PATH`.

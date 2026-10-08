@@ -1,0 +1,21 @@
+{
+  "name": "devflow",
+  "interface": {
+    "displayName": "devflow"
+  },
+  "plugins": [
+    {
+      "name": "devflow",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/CleanCod3Systems/devflow.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

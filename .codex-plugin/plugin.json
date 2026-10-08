@@ -1,0 +1,34 @@
+{
+  "name": "devflow",
+  "version": "0.3.0",
+  "description": "Everyday checkpoints for coding agents: tldr (session or question summary), ask (read-only questions) and changes-review (review and fix unpushed changes before you push).",
+  "author": {
+    "name": "CleanCod3Systems",
+    "url": "https://github.com/CleanCod3Systems"
+  },
+  "homepage": "https://github.com/CleanCod3Systems/devflow",
+  "repository": "https://github.com/CleanCod3Systems/devflow",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "review",
+    "read-only",
+    "summary",
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "devflow",
+    "shortDescription": "Everyday checkpoints: tldr, read-only ask, changes-review",
+    "developerName": "CleanCod3Systems",
+    "category": "Productivity",
+    "capabilities": [
+      "Instructions"
+    ],
+    "websiteURL": "https://github.com/CleanCod3Systems/devflow",
+    "defaultPrompt": [
+      "Give me a tldr of where we are.",
+      "Review my unpushed changes before I push."
+    ]
+  }
+}
