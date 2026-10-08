@@ -1,0 +1,16 @@
+{
+  "name": "devflow",
+  "owner": {
+    "name": "CleanCod3Systems"
+  },
+  "metadata": {
+    "description": "devflow: portable Agent Skills for everyday checkpoints with coding agents."
+  },
+  "plugins": [
+    {
+      "name": "devflow",
+      "source": "./",
+      "description": "/tldr, /ask (read-only) and /changes-review."
+    }
+  ]
+}

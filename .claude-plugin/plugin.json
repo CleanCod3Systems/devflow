@@ -1,0 +1,11 @@
+{
+  "name": "devflow",
+  "version": "0.1.0",
+  "description": "Everyday checkpoints for coding agents: /tldr (session or question summary), /ask (read-only questions, hook-enforced in Claude Code) and /changes-review (review and fix unpushed changes before you push).",
+  "author": {
+    "name": "CleanCod3Systems"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/CleanCod3Systems/devflow",
+  "keywords": ["skills", "review", "read-only", "summary", "workflow"]
+}
