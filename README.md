@@ -7,6 +7,7 @@ Everyday checkpoints for coding agents, packaged as portable [Agent Skills](http
 | `tldr` | Summarizes the session (what we did, where we are, next steps, your call, recommendation) or answers a question in short, sectioned form. |
 | `ask` | Read-only questions: the agent investigates and answers, but never creates, edits, deletes, or sends anything. Hook-enforced in Claude Code. |
 | `changes-review` | Reviews your **unpushed** changes through seven lenses (needed?, bugs, over-engineering, conventions, blast radius, gaps, DB/deploy risk), runs the tests, applies safe fixes, and proposes the risky ones. |
+| `stepwise` | Plans work in short numbered steps (who does each, when it is done), executes one step at a time with a status board, answers side questions briefly and always returns to the current step. |
 
 Skills are written in English and **answer in your language**: they reply in the language
 you write in (or the one your agent instructions set).
@@ -31,7 +32,7 @@ one, or `--list` to see them first.
 /plugin install devflow@devflow
 ```
 
-Use `/devflow:tldr`, `/devflow:ask <question>`, `/devflow:changes-review`. This is the only
+Use `/devflow:tldr`, `/devflow:ask <question>`, `/devflow:changes-review`, `/devflow:stepwise <goal>`. This is the only
 install that enforces `ask` with a hook (see below).
 
 ### Codex

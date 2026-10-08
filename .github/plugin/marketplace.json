@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "devflow",
-      "description": "tldr, ask (read-only) and changes-review.",
+      "description": "tldr, ask (read-only), changes-review and stepwise.",
       "source": "./",
       "category": "productivity",
       "tags": [
