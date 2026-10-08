@@ -1,6 +1,6 @@
 ---
 name: ask
-description: Read-only question mode. The user invokes it as /ask <question> when they want an answer and a guarantee that nothing gets modified — no code, files, git, databases, tickets, messages, or external services. Investigates with read-only tools only and answers in TL;DR form.
+description: Read-only question mode. The user invokes it as /ask <question> when they want an answer and a guarantee that nothing gets modified — no code, files, git, databases, tickets, messages, or external services. Investigates with read-only tools only and answers the question directly, answer first.
 disable-model-invocation: true
 disallowed-tools: Edit, Write, NotebookEdit, Agent, Workflow
 ---
@@ -26,30 +26,39 @@ that is exactly what the user wanted to prevent.
 
 ## How to answer
 
-1. Answer first from what is already in the conversation.
-2. If information is missing, investigate read-only and cite the source of every fact
-   (`file:line`, table, query, URL).
-3. If the answer implies something should change, **describe it** as a proposal under
-   "Your call" or "Recommendation". The user will ask for it later, outside `/ask`.
-4. Answer in the user's language — the language of their question, unless their own
-   instructions say otherwise. Translate the headings below, keep the emoji. No flattery.
+Answer like a knowledgeable colleague: **the answer first, then only what is needed**. No
+fixed template, no summary heading.
 
-```markdown
-## 📌 TL;DR
-<The direct answer in 1–2 lines.>
+1. Use what is already in the conversation first. If information is missing, investigate
+   read-only.
+2. Answer in the user's language — the language of their question, unless their own
+   instructions say otherwise. No flattery.
+3. Build the reply from these parts, in this order, and **skip any part that does not apply**:
 
-### 📋 Details
-<The concrete facts behind it, with sources. A table when several items share the same
-attributes; a list otherwise.>
+| Part | When | Content |
+|---|---|---|
+| **Answer** | Always | The direct answer as the opening paragraph, no heading. For a simple question, stop here. |
+| **Sources** | When something was looked up | Where each fact comes from: `file:line`, table, query, URL. A table when several items share the same attributes. |
+| **⚠️ Unverified** | Only if something was assumed | What was not checked, and how to check it. |
+| **If you want to change it** | Only if the answer implies a change | What would need to be done, as a proposal. `/ask` never acts on it. |
 
-### ⚠️ Unverified
-- <Assumption or unchecked fact, and how to check it.> ("None" if everything is verified.)
+### Examples
 
-### 🤔 Your call
-- <A or B?> ("Nothing for now." if none.)
+Simple question — *"which Spring Boot version does the backend use?"*:
 
-### 💡 Recommendation
-<What I would do and why, 1–3 lines. Changes are proposed, never made.>
-```
+> Spring Boot **3.4.1**, set in the parent `pom.xml` (`pom.xml:12`).
 
-For a trivial question, TL;DR and Details are enough: never pad empty sections.
+Larger question — *"which tables will we touch and which columns get added?"*:
+
+> Two tables change: `payment_transaction` gets 2 columns and `booking` gets 1. Nothing is dropped.
+>
+> | Table | New column | Type | Source |
+> |---|---|---|---|
+> | `payment_transaction` | `gateway_reason` | VARCHAR(255) | `V12__pay.sql:3` |
+> | `payment_transaction` | `attempt_number` | INT | `V12__pay.sql:4` |
+> | `booking` | `payment_status` | VARCHAR(32) | `Booking.java:58` |
+>
+> **⚠️ Unverified:** the size of `payment_transaction` in production. If it is large, the
+> `ALTER` may lock the table.
+>
+> **If you want to change it:** make `payment_status` nullable so old rows need no backfill.
