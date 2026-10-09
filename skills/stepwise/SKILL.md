@@ -45,6 +45,12 @@ Rules:
   user pasting a result. It is how the step gets verified later.
 - **Ask everything once.** All open questions go in "Before we start", together — at most 3,
   only the ones whose answer changes the plan. Do not scatter questions through the execution.
+- **Grounded steps.** Every file, function, command, table or setting a step names must have
+  been read or checked during planning. Do not invent paths or commands; if something is
+  unknown, it becomes a question in "Before we start", not a guess inside a step.
+- **Scope = what was asked.** If the user points to a reference ("like we did in X"), read X
+  first and plan the same shape. No extra steps (refactors, improvements, cleanups) unless
+  the user asks; propose them in "Before we start" instead.
 - No introductions, no explanations of the approach, no alternatives considered. If the
   user wants the reasoning, they will ask "why?".
 - Wait for the user's OK before executing anything.
@@ -61,8 +67,14 @@ After the OK, do the next pending step. When it is done, report in this shape:
 **Next — Step <n+1> (🤖|🧑):** <the step>. <"Go?" for 🤖 steps, or what to send back for 🧑 steps>
 ```
 
-- **Status board** (`📍` line): ✅ done, ▶️ current, ⬜ pending, ❌ failed. One line, always.
-  Never re-print the whole plan unless asked.
+- **The report is those three lines and nothing else.** No recap, no explanation of how.
+- **✅ only with evidence.** Mark a step ✅ only after checking its "done when" with a tool
+  (test run, file read, query, command output) and cite that evidence. If it could not be
+  checked, mark it ⚠️ and say what is unverified — never ✅ on assumption.
+- **Do only this step.** Nothing outside it. If you did anything the step did not ask for,
+  or did it differently from the reference, add one line: `Deviation: <what and why>`.
+- **Status board** (`📍` line): ✅ done, ▶️ current, ⬜ pending, ❌ failed, ⚠️ done but
+  unverified. One line, always. Never re-print the whole plan unless asked.
 - Then **stop and wait**. Continue when the user says go ("go", "next", "dale", "step 4").
 - If the user says to run everything ("do them all"), run 🤖 steps back to back, still
   printing the short report after each, and stop only at a 🧑 step or a failure.
