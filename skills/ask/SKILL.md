@@ -29,17 +29,24 @@ that is exactly what the user wanted to prevent.
 Answer like a knowledgeable colleague: **the answer first, then only what is needed**. No
 fixed template, no summary heading.
 
-1. Use what is already in the conversation first. If information is missing, investigate
+1. **List the questions first.** A message often holds more than one question ("what does it
+   send, and is it the same in the other API?"). Split it into its distinct questions before
+   investigating; each one gets an answer, or is named in ⚠️ as not answered and why.
+   Answering a neighbouring question instead of the one asked counts as not answered.
+2. Use what is already in the conversation first. If information is missing, investigate
    read-only.
-2. Answer in the user's language — the language of their question, unless their own
+3. **Separate what you saw from what you concluded.** A fact you read or ran goes with its
+   source. A conclusion drawn from it is marked as inferred. "Not found" is never proof of
+   absence: say where you searched (which files, folders, repos, or queries).
+4. Answer in the user's language — the language of their question, unless their own
    instructions say otherwise. No flattery.
-3. Build the reply from these parts, in this order, and **skip any part that does not apply**:
+5. Build the reply from these parts, in this order, and **skip any part that does not apply**:
 
 | Part | When | Content |
 |---|---|---|
-| **Answer** | Always | The direct answer as the opening paragraph, no heading. For a simple question, stop here. |
+| **Answer** | Always | The direct answer as the opening paragraph, no heading. With several questions, one short answer per question, in the order they were asked. For a simple question, stop here. |
 | **Sources** | When something was looked up | Where each fact comes from: `file:line`, table, query, URL. A table when several items share the same attributes. |
-| **⚠️ Unverified** | Only if something was assumed | What was not checked, and how to check it. |
+| **⚠️ Unverified** | If something was inferred, assumed, or left unanswered | What was not checked or not answered, and how to check it. |
 | **If you want to change it** | Only if the answer implies a change | What would need to be done, as a proposal. `/ask` never acts on it. |
 
 ### Examples

@@ -1,0 +1,48 @@
+This skill is adapted from cloudflare/security-audit-skill
+https://github.com/cloudflare/security-audit-skill
+Source commit: c1c8a8c1471069fb0e188eeaff69b8e8db6564a8
+
+Copied unchanged (the Markdown files only gain a one-line attribution header):
+  report-schema.json, validate-findings.cjs, validate-findings.test.cjs,
+  validate-coverage-ledger.cjs, validate-coverage-ledger.test.cjs,
+  WEB-PROTOCOL-AND-AUTH.md, DATA-ISOLATION-AND-LIFECYCLE.md, CLOUD-AND-DEPLOYMENT.md,
+  AI-AND-LLM.md
+
+Copied with small edits (attribution header, plus references to files not bundled here,
+references to SKILL.md redirected to FULL-AUDIT.md):
+  RECONNAISSANCE.md, HUNTING.md, VALIDATION-AND-REPORTING.md, ATTACK-CLASSES.md,
+  CLIENT-SIDE.md, SUPPLY-CHAIN-AND-RELEASE.md, PROTOCOLS-RPC-AND-MESSAGING.md,
+  RESOURCE-EXHAUSTION-AND-AVAILABILITY.md
+
+Adapted from the upstream SKILL.md:
+  FULL-AUDIT.md (setup, write isolation, planning, profiles, budget, workflow;
+  output directory default changed), SKILL.md (rewritten: diff/full scopes, core
+  principles, report format)
+
+Not included: MEMORY-SAFETY-AND-BINARY.md, DESKTOP-MOBILE-AND-LOCAL-IPC.md
+
+The original license follows.
+
+----------------------------------------------------------------------------
+
+MIT License
+
+Copyright (c) 2025-2026 Cloudflare, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

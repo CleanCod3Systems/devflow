@@ -1,7 +1,7 @@
 {
   "name": "devflow",
-  "version": "0.4.1",
-  "description": "Everyday checkpoints for coding agents: tldr (session or question summary), ask (read-only questions), changes-review (review and fix unpushed changes before you push) and stepwise (step-by-step plans that keep track of where you are).",
+  "version": "0.5.0",
+  "description": "Everyday checkpoints for coding agents: tldr (session or question summary), ask (read-only questions), changes-review (review and fix unpushed changes before you push), stepwise (step-by-step plans that keep track of where you are), tests-audit (tell real test failures from false reds and false greens), security-audit (source-first security audit of your changes or the whole repo, reporting only real trust-boundary failures) and focus (answer-first replies: next action first, no filler).",
   "author": {
     "name": "CleanCod3Systems",
     "url": "https://github.com/CleanCod3Systems"
@@ -19,7 +19,7 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "devflow",
-    "shortDescription": "Everyday checkpoints: tldr, read-only ask, changes-review",
+    "shortDescription": "Everyday checkpoints: tldr, read-only ask, changes-review, stepwise, tests-audit, security-audit, focus",
     "developerName": "CleanCod3Systems",
     "category": "Productivity",
     "capabilities": [

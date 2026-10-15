@@ -125,7 +125,11 @@ size is unknown, it goes under "Not verified" in 🧪 Verification.
 ## Step 4 — Verify
 
 - Build and run the tests of the touched module with the commands the repo's agent
-  instructions or README give. Report the command and the actual result.
+  instructions or README give. Report the command and the actual result, read from its exit
+  code — not from output filtered through `grep` or `tail`, which hides the real status.
+- A failure that looks unrelated to the change (timeouts, a suite that passed before) is not
+  dismissed by a lucky rerun: use the `tests-audit` skill to tell a real regression from a
+  false red.
 - If they cannot run (they need services, a database, credentials), say so; never claim
   "it works" without running it.
 
@@ -144,6 +148,10 @@ concrete failures. Check each of its findings against the code before including 
 - Deduplicate what shows up in several lenses or in the independent review; keep the most
   specific version.
 - ~6 findings max, ordered by severity. No praise, no filler.
+- **No findings is not the same as reviewed.** Keep track of what you could not cover — a
+  lens you skipped, a file you did not read whole, a caller in a repo you could not open, a
+  test that did not run. It goes under "Not verified" in 🧪 Verification; a ✅ verdict only
+  claims what was actually covered.
 
 ## Step 6 — Apply fixes
 
