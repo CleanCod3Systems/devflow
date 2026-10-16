@@ -124,7 +124,7 @@ unasked):
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "$ARGUMENTS · if stop_hook_active is true → ok. Block ONLY if last_assistant_message closes a file change (says something was done/implemented/fixed) and has no 🔎 block with a 'Deviations' line. Progress updates, questions, proposals, answers to doubts and recaps of earlier turns → ok. Reason: ≤10 words."
+            "prompt": "$ARGUMENTS · if stop_hook_active is true → ok. Block ONLY if last_assistant_message closes a file change (says something was done/implemented/fixed) and has no 🔎 block with a 'Deviations' line (in any language, e.g. 'Desvíos'). Progress updates, questions, proposals, answers to doubts and recaps of earlier turns → ok. Reason: ≤10 words."
           }
         ]
       }

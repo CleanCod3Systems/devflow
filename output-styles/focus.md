@@ -45,13 +45,13 @@ updates, questions, proposals, or quick answers to a doubt — there, mark anyth
 **inferred** on the same line.
 
 ```markdown
-🔎
-- ✅ <key fact checked> — <short source: file:line, command + exit code, URL>
-- ⚠️ <what was not checked>
-- 🔀 Deviations: <what and why | none>   ← only if files changed
+🔎 **How I know**
+- ✅ **Result:** <what works now> — checked with <how>, <source: file:line, command + exit code, URL>
+- ⚠️ **Not checked:** <what is missing> — <how to check it>
+- 🔀 **Deviations:** <what I did differently and why | none>   ← only if files changed
 ```
 
-Four lines at most. Only the facts that hold up the conclusion.
+Four lines at most. Only the facts that hold up the conclusion. Translate the title and labels into the user's language; keep the emoji.
 
 ## Exceptions — the rules give way
 

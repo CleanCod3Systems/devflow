@@ -1,6 +1,6 @@
 {
   "name": "devflow",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Everyday checkpoints for coding agents: tldr (session or question summary), ask (read-only questions), changes-review (review and fix unpushed changes before you push), stepwise (step-by-step plans that keep track of where you are), tests-audit (tell real test failures from false reds and false greens), security-audit (source-first security audit of your changes or the whole repo, reporting only real trust-boundary failures) and focus (answer-first replies: next action first, no filler).",
   "author": {
     "name": "CleanCod3Systems",
