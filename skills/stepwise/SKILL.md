@@ -49,8 +49,8 @@ Rules:
   been read or checked during planning. Do not invent paths or commands; if something is
   unknown, it becomes a question in "Before we start", not a guess inside a step.
 - **Spec first, if there is one.** If a spec from the `spec` skill exists for this goal (the
-  user points to it, or one in `docs/specs/` matches), its Acceptance criteria are the steps'
-  "done when" and its Out of scope is the plan's limit.
+  user points to it, or one in `docs/specs/` or the project's spec folder matches), its
+  Acceptance criteria are the steps' "done when" and its Out of scope is the plan's limit.
 - **Scope = what was asked.** If the user points to a reference ("like we did in X"), read X
   first and plan the same shape. No extra steps (refactors, improvements, cleanups) unless
   the user asks; propose them in "Before we start" instead.
