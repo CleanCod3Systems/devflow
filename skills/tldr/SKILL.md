@@ -75,6 +75,8 @@ When in doubt, a concrete question wins: question mode.
   minor items.
 - **Next steps**: concrete actions ("run the test suite of the `api` module"), not vague
   intentions ("check stuff").
+- **Recommendation**: if the session settled a decision between real alternatives (it is no
+  longer open), add one line suggesting to record it with `adr`.
 
 ### Example
 

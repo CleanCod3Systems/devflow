@@ -8,6 +8,8 @@ Everyday checkpoints for coding agents, packaged as portable [Agent Skills](http
 | `ask` | Read-only questions: the agent investigates and answers, but never creates, edits, deletes, or sends anything. Hook-enforced in Claude Code. |
 | `changes-review` | Reviews your **unpushed** changes through seven lenses (needed?, bugs, over-engineering, conventions, blast radius, gaps, DB/deploy risk), runs the tests, applies safe fixes, and proposes the risky ones. |
 | `stepwise` | Plans work in short numbered steps (who does each, when it is done), executes one step at a time with a status board, answers side questions briefly and always returns to the current step. |
+| `spec` | Spec-first for non-trivial tasks: asks a few clarifying questions at once, then writes a one-screen spec (problem, verifiable acceptance criteria, out of scope, constraints, open questions) in `docs/specs/`. Says no to specs for small bugs and one-liners. |
+| `adr` | Records a decision that had real alternatives as a short ADR (MADR plus a one-line Y-statement) in `docs/adr/` or the project's own folder, keeps the index and superseded links, and shows the diff. Never commits. |
 | `tests-audit` | Tells whether a test result can be trusted: separates real regressions from false reds (load, ports, stale caches, lost exit codes) and false greens (tests that would not catch the bug). Proposes fixes, never retries or loosens tests to turn them green. |
 | `focus` | Answer-first replies for readers who need to act fast (ADHD-friendly): next action first, numbered steps, no filler, one next action at the end, a short evidence block only when closing a task. Per session with `/focus`, or always on (see [Focus everywhere](#focus-everywhere)). |
 | `security-audit` | Source-first security audit that reports only real trust-boundary failures, each one challenged by a fresh agent and sorted into confirmed / needs validation / rejected. `diff` scope (default) checks your unpushed changes; `full` audits the whole repo with many agents and is expensive. Never edits your code. |
@@ -35,7 +37,7 @@ one, or `--list` to see them first.
 /plugin install devflow@devflow
 ```
 
-Use `/devflow:tldr`, `/devflow:ask <question>`, `/devflow:changes-review`, `/devflow:stepwise <goal>`, `/devflow:tests-audit`, `/devflow:security-audit [diff|full]`, `/devflow:focus`. This is the only
+Use `/devflow:tldr`, `/devflow:ask <question>`, `/devflow:changes-review`, `/devflow:stepwise <goal>`, `/devflow:spec <goal>`, `/devflow:adr <decision>`, `/devflow:tests-audit`, `/devflow:security-audit [diff|full]`, `/devflow:focus`. This is the only
 install that enforces `ask` with a hook (see below).
 
 ### Codex
@@ -100,6 +102,18 @@ It edits only files that have unpushed changes, and it backs them up first with
 `git stash store` (restore with `git stash apply`). It never commits, pushes, or writes to
 databases. Fixes that change behavior, contracts, schemas, or permissions are proposed and
 wait for your OK.
+
+## Spec → plan → decisions
+
+For a non-trivial task, the skills chain into a light spec-first flow:
+
+1. `spec` — agree on the problem, the acceptance criteria and what is out of scope.
+2. `stepwise` — plan and execute it; the acceptance criteria become each step's "done when".
+3. `adr` — when a decision with real alternatives comes up along the way, record it.
+4. `changes-review` — review the unpushed changes before pushing.
+5. `tldr` — wrap up; it suggests an `adr` if a decision was settled and not recorded.
+
+Each step is optional: small fixes skip `spec`, and most tasks never need an `adr`.
 
 ## Focus everywhere
 
