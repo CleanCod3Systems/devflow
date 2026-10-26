@@ -11,6 +11,7 @@ Everyday checkpoints for coding agents, packaged as portable [Agent Skills](http
 | `spec` | Spec-first for non-trivial tasks: asks a few clarifying questions at once, then writes a one-screen spec (problem, verifiable acceptance criteria, out of scope, constraints, open questions) in `docs/specs/` or the project's own folder. Says no to specs for small bugs and one-liners. |
 | `adr` | Records a decision that had real alternatives as a short ADR (MADR plus a one-line Y-statement) in `docs/adr/` or the project's own folder, keeps the index and superseded links, and shows the diff. Never commits. |
 | `tests-audit` | Tells whether a test result can be trusted: separates real regressions from false reds (load, ports, stale caches, lost exit codes) and false greens (tests that would not catch the bug). Proposes fixes, never retries or loosens tests to turn them green. |
+| `qa-check` | Tests what you changed against the requirement, not the code: maps the change two caller levels out, writes and runs only the missing tests in the repo's framework, runs the real flow when users are affected, and gives a release verdict. Edits test files only. |
 | `focus` | Answer-first replies for readers who need to act fast (ADHD-friendly): next action first, numbered steps, no filler, one next action at the end, a short evidence block only when closing a task. Per session with `/focus`, or always on (see [Focus everywhere](#focus-everywhere)). |
 | `security-audit` | Source-first security audit that reports only real trust-boundary failures, each one challenged by a fresh agent and sorted into confirmed / needs validation / rejected. `diff` scope (default) checks your unpushed changes; `full` audits the whole repo with many agents and is expensive. Never edits your code. |
 
@@ -37,7 +38,7 @@ one, or `--list` to see them first.
 /plugin install devflow@devflow
 ```
 
-Use `/devflow:tldr`, `/devflow:ask <question>`, `/devflow:changes-review`, `/devflow:stepwise <goal>`, `/devflow:spec <goal>`, `/devflow:adr <decision>`, `/devflow:tests-audit`, `/devflow:security-audit [diff|full]`, `/devflow:focus`. This is the only
+Use `/devflow:tldr`, `/devflow:ask <question>`, `/devflow:changes-review`, `/devflow:stepwise <goal>`, `/devflow:spec <goal>`, `/devflow:adr <decision>`, `/devflow:tests-audit`, `/devflow:qa-check [diff|fix|plan]`, `/devflow:security-audit [diff|full]`, `/devflow:focus`. This is the only
 install that enforces `ask` with a hook (see below).
 
 ### Codex
@@ -111,9 +112,14 @@ For a non-trivial task, the skills chain into a light spec-first flow:
 2. `stepwise` — plan and execute it; the acceptance criteria become each step's "done when".
 3. `adr` — when a decision with real alternatives comes up along the way, record it.
 4. `changes-review` — review the unpushed changes before pushing.
-5. `tldr` — wrap up; it suggests an `adr` if a decision was settled and not recorded.
+5. `qa-check` — prove the changed behavior works: the spec's acceptance criteria become its
+   test cases.
+6. `tldr` — wrap up; it suggests an `adr` if a decision was settled and not recorded.
 
 Each step is optional: small fixes skip `spec`, and most tasks never need an `adr`.
+
+`changes-review` and `qa-check` do not overlap: the first reads the code and fixes it, the
+second runs the behavior and only writes tests.
 
 ## Focus everywhere
 
