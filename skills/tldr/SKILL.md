@@ -1,6 +1,6 @@
 ---
 name: tldr
-description: TL;DR answers with fixed, emoji-tagged sections. Two modes — (1) no arguments, summarize the current session state (What we did, Where we are, Next steps, Your call, Recommendation); (2) with a question, answer it briefly (TL;DR, Details, Unverified, Your call, Recommendation). Use when the user invokes tldr, asks "where are we?", "what's left?", "sum it up", "what do I need to decide?", wants to wrap up or resume a long session, or asks a concrete question and wants the answer in TL;DR form.
+description: TL;DR answers with fixed, emoji-tagged sections. Two modes — (1) no arguments, summarize the current session state (What we did, Where we are, Next steps, Your call, Recommendation); (2) with a question, answer it briefly (TL;DR, Details, Unverified, Your call, Recommendation). Session mode can also save the summary to a handoff file for a new session. Use when the user invokes tldr, asks "where are we?", "what's left?", "sum it up", "what do I need to decide?", wants to wrap up or resume a long session, asks for a handoff or to continue in another session, or asks a concrete question and wants the answer in TL;DR form.
 ---
 
 # TL;DR
@@ -47,7 +47,21 @@ When in doubt, a concrete question wins: question mode.
 - **Rebuild it from the actual conversation**: files edited, commands run, test/build
   results, open questions, requests not yet fulfilled.
 - **Do not run anything new** (no tests, queries, or git). This is a snapshot, not a
-  continuation of the work. If a key fact is missing, list it as a next step.
+  continuation of the work. If a key fact is missing, list it as a next step. The one
+  exception is the handoff file below.
+
+### Handoff to another session
+
+When the user wants to continue in a new session ("handoff", "let's continue in another
+session", "save where we are"), also write the summary to a file the next session can read:
+
+- Path: `${TMPDIR:-/tmp}/devflow-handoff/<repo-or-folder>-<YYYY-MM-DD-HHMM>.md`.
+- Add what a fresh agent needs and the template does not carry: the goal in one line, the
+  branch and key paths, what was already ruled out and why, and the skills to load.
+- Point to specs, ADRs, tickets, PRs and commits by path or URL instead of copying them.
+- Leave out secrets, tokens and personal data.
+- End the reply with the path and one line to paste in the new session:
+  `Read <path> and continue from Next steps.`
 
 ### Template
 

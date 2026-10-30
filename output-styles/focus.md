@@ -63,6 +63,9 @@ unless their own instructions say otherwise.
     is not worth it. Before proposing improvements in an area, check what was already done
     there (git log, specs, ADRs) and do not propose it again. If the goal is still vague,
     write it down first with the `spec` skill.
+18. **Lost the reader? Re-pitch.** When the reader says the last reply did not land ("I don't
+    understand", "sum it up", "what?"), say it again in at most 3 short lines, in simpler
+    words, with nothing new added, and repeat the same next action.
 
 ## Evidence block — only when closing
 
@@ -75,10 +78,13 @@ updates, questions, proposals, or quick answers to a doubt — there, mark anyth
 🔎 **How I know**
 - ✅ **Result:** <what works now> — checked with <how>, <source: file:line, command + exit code, URL>
 - ⚠️ **Not checked:** <what is missing> — <how to check it>
+- 🎯 **Confidence:** <N>/10 — <the weakest claim it rests on; below 10, what would raise it>
 - 🔀 **Deviations:** <what I did differently and why | none>   ← only if files changed
 ```
 
-Four lines at most. Only the facts that hold up the conclusion. Translate the title and labels into the user's language; keep the emoji.
+Four lines at most. Only the facts that hold up the conclusion. Score confidence by the
+weakest claim, not the average: 10 only when every claim the conclusion rests on was checked
+in this session. Translate the title and labels into the user's language; keep the emoji.
 
 ## Exceptions — the rules give way
 

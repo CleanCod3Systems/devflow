@@ -4,7 +4,7 @@ Everyday checkpoints for coding agents, packaged as portable [Agent Skills](http
 
 | Skill | What it does |
 |---|---|
-| `tldr` | Summarizes the session (what we did, where we are, next steps, your call, recommendation) or answers a question in short, sectioned form. |
+| `tldr` | Summarizes the session (what we did, where we are, next steps, your call, recommendation) or answers a question in short, sectioned form. On request it saves the session summary to a handoff file to continue in a new session. |
 | `ask` | Read-only questions: the agent investigates and answers, but never creates, edits, deletes, or sends anything. Hook-enforced in Claude Code. |
 | `changes-review` | Reviews your **unpushed** changes through seven lenses (needed?, bugs, over-engineering, conventions, blast radius, gaps, DB/deploy risk), runs the tests, applies safe fixes, and proposes the risky ones. |
 | `stepwise` | Plans work in short numbered steps (who does each, when it is done), executes one step at a time with a status board, answers side questions briefly and always returns to the current step. |
@@ -12,7 +12,7 @@ Everyday checkpoints for coding agents, packaged as portable [Agent Skills](http
 | `adr` | Records a decision that had real alternatives as a short ADR (MADR plus a one-line Y-statement) in `docs/adr/` or the project's own folder, keeps the index and superseded links, and shows the diff. Never commits. |
 | `tests-audit` | Tells whether a test result can be trusted: separates real regressions from false reds (load, ports, stale caches, lost exit codes) and false greens (tests that would not catch the bug). Proposes fixes, never retries or loosens tests to turn them green. |
 | `qa-check` | Tests what you changed against the requirement, not the code: maps the change two caller levels out, writes and runs only the missing tests in the repo's framework, runs the real flow when users are affected, and gives a release verdict. Edits test files only. |
-| `focus` | Answer-first replies for readers who need to act fast (ADHD-friendly): next action first, numbered steps, plain words, yes/no first, every request checked off ✅/❌, disagreement with evidence instead of pleasing, a finish line for improvement requests, one next action at the end, a short evidence block only when closing a task. Per session with `/focus`, or always on (see [Focus everywhere](#focus-everywhere)). |
+| `focus` | Answer-first replies for readers who need to act fast (ADHD-friendly): next action first, numbered steps, plain words, yes/no first, every request checked off ✅/❌, disagreement with evidence instead of pleasing, a finish line for improvement requests, a short re-pitch when a reply did not land, one next action at the end, a short evidence block with a confidence score only when closing a task. Per session with `/focus`, or always on (see [Focus everywhere](#focus-everywhere)). |
 | `security-audit` | Source-first security audit that reports only real trust-boundary failures, each one challenged by a fresh agent and sorted into confirmed / needs validation / rejected. `diff` scope (default) checks your unpushed changes; `full` audits the whole repo with many agents and is expensive. Never edits your code. |
 
 Skills are written in English and **answer in your language**: they reply in the language
