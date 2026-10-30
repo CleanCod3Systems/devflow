@@ -1,7 +1,7 @@
 {
   "name": "devflow",
-  "version": "0.8.0",
-  "description": "Everyday checkpoints for coding agents: tldr (session or question summary), ask (read-only questions), changes-review (review and fix unpushed changes before you push), stepwise (step-by-step plans that keep track of where you are), spec (one-screen spec before coding a non-trivial task), adr (record decisions with real alternatives as ADRs), tests-audit (tell real test failures from false reds and false greens), qa-check (test what you changed against the requirement: missing tests, real flow, release verdict), security-audit (source-first security audit of your changes or the whole repo, reporting only real trust-boundary failures) and focus (answer-first replies: next action first, no filler).",
+  "version": "0.9.0",
+  "description": "Everyday checkpoints for coding agents: tldr (session or question summary), ask (read-only questions), changes-review (review and fix unpushed changes before you push), stepwise (step-by-step plans that keep track of where you are), spec (one-screen spec before coding a non-trivial task), adr (record decisions with real alternatives as ADRs), tests-audit (tell real test failures from false reds and false greens), debug (reproduce a bug with one failing command before fixing it), qa-check (test what you changed against the requirement: missing tests, real flow, release verdict), security-audit (source-first security audit of your changes or the whole repo, reporting only real trust-boundary failures) and focus (answer-first replies: next action first, no filler).",
   "author": {
     "name": "CleanCod3Systems",
     "url": "https://github.com/CleanCod3Systems"

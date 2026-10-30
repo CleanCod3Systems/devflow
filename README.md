@@ -11,6 +11,7 @@ Everyday checkpoints for coding agents, packaged as portable [Agent Skills](http
 | `spec` | Spec-first for non-trivial tasks: asks a few clarifying questions at once, then writes a one-screen spec (problem, for whom, verifiable acceptance criteria, out of scope, constraints, open questions) in `docs/specs/` or the project's own folder. Says no to specs for small bugs and one-liners, and always writes one for open-ended "optimize / improve" requests: a measurable target from today's value is what ends them. |
 | `adr` | Records a decision that had real alternatives as a short ADR (MADR plus a one-line Y-statement) in `docs/adr/` or the project's own folder, keeps the index and superseded links, and shows the diff. Never commits. |
 | `tests-audit` | Tells whether a test result can be trusted: separates real regressions from false reds (load, ports, stale caches, lost exit codes) and false greens (tests that would not catch the bug). Proposes fixes, never retries or loosens tests to turn them green. |
+| `debug` | Diagnoses and fixes a bug or slowdown by first building one command that reproduces it (failing test, curl, browser script, replayed request), then testing 3–5 ranked hypotheses one at a time, fixing the cause and locking it with a regression test. Never commits; read-only against production. |
 | `qa-check` | Tests what you changed against the requirement, not the code: maps the change two caller levels out, writes and runs only the missing tests in the repo's framework, runs the real flow when users are affected, and gives a release verdict. Edits test files only. |
 | `focus` | Answer-first replies for readers who need to act fast (ADHD-friendly): next action first, numbered steps, plain words, yes/no first, every request checked off ✅/❌, disagreement with evidence instead of pleasing, a finish line for improvement requests, a short re-pitch when a reply did not land, one next action at the end, a short evidence block with a confidence score only when closing a task. Per session with `/focus`, or always on (see [Focus everywhere](#focus-everywhere)). |
 | `security-audit` | Source-first security audit that reports only real trust-boundary failures, each one challenged by a fresh agent and sorted into confirmed / needs validation / rejected. `diff` scope (default) checks your unpushed changes; `full` audits the whole repo with many agents and is expensive. Never edits your code. |
@@ -38,7 +39,7 @@ one, or `--list` to see them first.
 /plugin install devflow@devflow
 ```
 
-Use `/devflow:tldr`, `/devflow:ask <question>`, `/devflow:changes-review`, `/devflow:stepwise <goal>`, `/devflow:spec <goal>`, `/devflow:adr <decision>`, `/devflow:tests-audit`, `/devflow:qa-check [diff|fix|plan]`, `/devflow:security-audit [diff|full]`, `/devflow:focus`. This is the only
+Use `/devflow:tldr`, `/devflow:ask <question>`, `/devflow:changes-review`, `/devflow:stepwise <goal>`, `/devflow:spec <goal>`, `/devflow:adr <decision>`, `/devflow:tests-audit`, `/devflow:debug`, `/devflow:qa-check [diff|fix|plan]`, `/devflow:security-audit [diff|full]`, `/devflow:focus`. This is the only
 install that enforces `ask` with a hook (see below).
 
 ### Codex
@@ -156,6 +157,9 @@ unasked):
 ## Credits
 
 `focus` is adapted from [i-have-adhd](https://github.com/ayghri/i-have-adhd) (MIT).
+
+`debug` is adapted from the `diagnosing-bugs` skill in
+[mattpocock/skills](https://github.com/mattpocock/skills) (MIT).
 
 The evidence rules in `ask` and `changes-review` (observed vs. inferred, "not found is not
 absence", coverage stated explicitly) and the approach of `tests-audit` are adapted from

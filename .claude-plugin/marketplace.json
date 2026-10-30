@@ -10,7 +10,7 @@
     {
       "name": "devflow",
       "source": "./",
-      "description": "/tldr, /ask (read-only), /changes-review, /stepwise, /spec, /adr, /tests-audit, /qa-check, /security-audit and /focus."
+      "description": "/tldr, /ask (read-only), /changes-review, /stepwise, /spec, /adr, /tests-audit, /debug, /qa-check, /security-audit and /focus."
     }
   ]
 }
